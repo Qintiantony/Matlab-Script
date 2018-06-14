@@ -41,3 +41,9 @@ grid on
 title('Periodogram Using FFT')
 xlabel('Frequency (MHz)')
 ylabel('Power/Frequency (dB/Hz)')
+
+%Lock-in amplifier
+reference_signal=sin(2*pi*fm*t);
+wave_out=wave1.*reference_signal;
+plot(t,wave_out);
+
