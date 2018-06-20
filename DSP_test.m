@@ -24,7 +24,7 @@ for fprobe=freq_sweep
 noise=randn(1,N)*1000;
 E_pump=2*exp(1i*2*pi*(fc+noise).*t);
 E_pump=E_pump.*(1-mdepth_pump+mdepth_pump*sin(2*pi*fm*t));
-noise2=randn(1,N)*20;
+noise2=randn(1,N)*10;
 E_signal=0.6*exp(1i*2*pi*(fc+noise+noise2-fsignal).*t);
 E_signal=E_signal.*(1-mdepth_signal+mdepth_signal*sin(2*pi*fm*t));
 E_probe=E_pump.*(1-mdepth_probe+mdepth_probe*sin(2*pi*fprobe*t));
@@ -58,11 +58,11 @@ frame=frame+1
 %Lock-in amplifier
 reference_signal1=cos(2*pi*fm*t);
 wave_x=wave1.*reference_signal1;
-wave_x=resample(wave_x,fs_r,fs);
+%wave_x=resample(wave_x,fs_r,fs);
 %wave_x=step(FIRLPF,wave_x);
 reference_signal2=sin(2*pi*fm*t);
 wave_y=wave1.*reference_signal2;
-wave_y=resample(wave_y,fs_r,fs);
+%wave_y=resample(wave_y,fs_r,fs);
 %wave_y=step(FIRLPF,wave_y);
 wave_R=(wave_x.^2+wave_y.^2).^0.5;
 Rout(frame)=mean(wave_R);
@@ -80,7 +80,7 @@ xlabel('Frequency (kHz)')
 ylabel('R')
 %xlim([freq_sweep(1)-fsignal freq_sweep(length(freq_sweep))-fsignal]);
 ylim([-10E-3 10E-3]);
-saveas(gcf,['E:\Matlab Script\image\LIA',num2str(frame),'.jpg']);
+saveas(gcf,['C:\Users\qinti\Documents\GitHub\Matlab-Script\image\LIA',num2str(frame),'.jpg']);
 close;
 end
 

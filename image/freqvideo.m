@@ -1,6 +1,6 @@
 %frequency video writer
-v=VideoWriter('v1.avi');
-v.FrameRate=60;
+v=VideoWriter('v3.avi');
+v.FrameRate=30;
 open(v);
 for i=1:401
    frame=imread(['LIA',num2str(i),'.jpg']);
