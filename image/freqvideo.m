@@ -1,5 +1,5 @@
 %frequency video writer
-v=VideoWriter('v3.avi');
+v=VideoWriter('v5.avi');
 v.FrameRate=30;
 open(v);
 for i=1:401

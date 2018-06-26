@@ -13,7 +13,7 @@ mdepth_pump=15E-3;
 mdepth_probe=4E-2;
 t=0:1/fs:20000E-6;
 t_r=0:1/fs_r:20000E-6;
-freq_sweep=(-100E3:10E3:100E3)+fsignal;
+freq_sweep=(-100E3:0.5E3:100E3)+fsignal;
 N = length(t);
 frame=0;
 Rout=zeros(1,length(freq_sweep));
@@ -21,20 +21,20 @@ Rout_x=(freq_sweep-fsignal)/1000;
 
 %Brillouin Gain
 Gamma_B=10E3;
-gain_0=1/Gamma_B*5;
+gain_0=1/Gamma_B*10;
 Omega_B=2*pi*fsignal;
 Omega=2*pi*(freq_sweep);
-gain=gain_0*(Gamma_B/2)^2./((Omega_B-Omega).^2+(Gamma_B/2)^2);
+gain=-gain_0*(Gamma_B/2)^2./((Omega_B-Omega).^2+(Gamma_B/2)^2);
 
 %Wave generation
 for fprobe=freq_sweep
 noise=randn(1,N)*100E3;
-E_pump=2*exp(1i*2*pi*(fc+noise).*t)*(1-gain(frame+1));
+E_pump=2*exp(1i*2*pi*(fc+noise).*t);
 E_pump=E_pump.*(1-mdepth_pump+mdepth_pump*sin(2*pi*fm*t));
-noise2=randn(1,N)*100;
+noise2=randn(1,N)*20;
 E_signal=0.6*exp(1i*2*pi*(fc+noise+noise2-fsignal).*t);
 E_signal=E_signal.*(1-mdepth_signal+mdepth_signal*sin(2*pi*fm*t));
-E_probe=E_pump*(1-gain(frame+1)).*(1-mdepth_probe+mdepth_probe*sin(2*pi*fprobe*t));
+E_probe=E_pump.*(1-mdepth_probe-gain(frame+1)+(mdepth_probe+gain(frame+1)).*sin(2.*pi.*fprobe.*t));
 E_total=E_probe+E_signal;
 wave1=E_total.*conj(E_total);
 figure;
